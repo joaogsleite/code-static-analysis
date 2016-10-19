@@ -11,12 +11,12 @@ module.exports = (code)=>{
     }
     
     if (code.indexOf('pg_query')!==-1){
-    	// CALL postgree_analyser
         console.log('Checking PostgreSQL Injection')
+    	  // CALL postgree_analyser
     }
 
     if (code.indexOf('echo')!==-1){
-    	// CALL css_analyser
         console.log('Checking Cross Site Scripting Injection')
+        // CALL css_analyser
     }
 }

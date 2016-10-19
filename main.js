@@ -1,6 +1,6 @@
 
 const fs = require('fs')
-const code_analyser = require('./code_analyser')
+const code_analyser = require('./analyser')
 
 const file = process.argv[2]
 if (!file){
