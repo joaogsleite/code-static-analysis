@@ -1,0 +1,19 @@
+{
+  "name": "ss-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "analyser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaaoleite/ss-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaaoleite/ss-project/issues"
+  },
+  "homepage": "https://github.com/joaaoleite/ss-project#readme"
+}
