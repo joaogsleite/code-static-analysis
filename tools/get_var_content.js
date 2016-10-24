@@ -2,38 +2,50 @@
 letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'
 
 get_var_content = (code,variable)=>{
+
+    let content = variable
     
-    if(variable[0]==='$' && variable[1]!='_'){
+    if(variable[0]==='$'){
+        if(variable[1]==='_')
+            return variable
         
         let parts = code.split(variable)
+        code = parts[0]
         parts.shift()
-        let content = parts.join('')
+        content = parts.join(variable)
         parts = content.split('=')
         parts.shift()
-        content = parts.join('')
+        content = parts.join('=')
 
         while(content[0]===' ' || content[0]==='\t' || content[0]==='\n')
             content = content.substr(1)
 
-        variable = content
+        let open = content[0]
+        if(open!='"' && open!="'")
+            open=''
+        content = content.split(open+';')[0]+open
     }
-    parts = variable.split('$')
-    
-    for(i in parts){
-        if(i==0)
-            continue
-        let k=0
-        let word = parts[i]
-        while(letters.indexOf(word[k])){
-            k++;
-        }
-        word = '$'+word.substr(0,k)
-        word = get_var_content(code,word)
-    } 
     
 
+    parts = content.split('$')
+    content = parts[0]
+    parts.shift()
+
+    for(i in parts){
+        let k=0
+        let word = parts[i]
+        while(letters.indexOf(word[k])!==-1){
+            k++;
+        }
+        let end = word.substr(k)
+        word = '$'+word.substr(0,k)
+        word = get_var_content(code,word)
+        content = content + ' ' + word + ' ' + end
+    } 
+    if(content==='')
+        content = variable
     
-    return variable
+    return content
 }
 
 module.exports = get_var_content

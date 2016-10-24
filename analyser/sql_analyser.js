@@ -1,6 +1,8 @@
 
-const analyse_query = (query)=>{
-    console.log(query)
+const get_var_content = require('../tools/get_var_content')
+
+const analyse_query = (code)=>{
+    console.log('analyse_query:',code)
 }
 
 
@@ -28,6 +30,7 @@ module.exports = (code)=>{
             let index = query.lastIndexOf(open)
             query = query.substr(0,index+1)
         }
-        analyse_query(get_var_content(query))
+        query = get_var_content(code.split('query(')[0],query)
+        analyse_query(query)
     }
 }
