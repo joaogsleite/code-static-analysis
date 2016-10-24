@@ -1,6 +1,7 @@
 
 const fs = require('fs')
 const code_analyser = require('./analyser')
+require('./tools/string_contains')
 
 const file = process.argv[2]
 if (!file){
@@ -12,6 +13,7 @@ try {
     code_analyser(code)
 }
 catch(err) {
+    console.log(err)
     console.log('Invalid file: '+file)
 }
 
