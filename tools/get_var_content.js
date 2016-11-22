@@ -3,13 +3,15 @@ letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'
 
 get_var_content = (code,variable)=>{
 
+	console.log("INPUT",variable)
+
     let content = variable
-    
+
     if(variable[0]==='$'){
         if(variable[1]==='_')
             return variable
-        
-        let parts = code.split(variable)
+
+        var parts = code.split(variable)
         code = parts[0]
         parts.shift()
         content = parts.join(variable)
@@ -25,26 +27,30 @@ get_var_content = (code,variable)=>{
             open=''
         content = content.split(open+';')[0]+open
     }
-    
 
     parts = content.split('$')
     content = parts[0]
     parts.shift()
 
+
     for(i in parts){
         let k=0
         let word = parts[i]
+		if(!word) continue
         while(letters.indexOf(word[k])!==-1){
             k++;
         }
         let end = word.substr(k)
         word = '$'+word.substr(0,k)
+
+
         word = get_var_content(code,word)
         content = content + ' ' + word + ' ' + end
-    } 
+
+    }
     if(content==='')
         content = variable
-    
+
     return content
 }
 

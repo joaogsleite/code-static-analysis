@@ -10,7 +10,7 @@ module.exports = (code)=>{
 
     let queries = code.split('query(')
     queries.shift()
-    
+
     for(i in queries){
         let query = queries[i]
 
@@ -23,7 +23,7 @@ module.exports = (code)=>{
         }
         // if string directly in query function
         else{
-            let open = query[0]    
+            let open = query[0]
             query = query.split(');')[0]
             if(query.contains('mysql_connect('))
                 query = query.split('mysql_')[0]
