@@ -1,28 +1,17 @@
 
-const mysql = ['mysql_query(','mysql_unbuffered_query(','mysql_db_query(']
-const postgree = ['pg_query(','pg_send_query(']
-const xss = ['echo','print','printf','die','error','exit']
-const php = ['eval','file_put_contents','file_get_contents']
+const sql = ['mysql_query(','mysql_unbuffered_query(','mysql_db_query(','pg_query(','pg_send_query(','db2_exec(']
+const xss = ['echo','print','printf','die','error','exit','file_put_contents','file_get_contents']
+const php = ['eval']
 
 module.exports = (code)=>{
-    if (code.contains(mysql)){
+    if (code.contains(sql)){
         console.log('Checking SQL Injection')
         require('./sql_analyser')(code)
     }
 
-    if (code.contains(['db2_exec'])){
-        console.log('Checking DB2 Injection')
-        // CALL db2_analyser
-    }
-    
-    if (code.contains(postgree)){
-        console.log('Checking PostgreSQL Injection')
-    	  // CALL postgree_analyser
-    }
-
     if (code.contains(xss)){
         console.log('Checking Cross Site Scripting Injection')
-        // CALL xss_analyser
+        require('./xss_analyser')(code)
     }
 
     if (code.contains(php)){

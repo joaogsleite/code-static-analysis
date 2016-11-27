@@ -1,8 +1,23 @@
 
 const get_var_content = require('../tools/get_var_content')
 
-const analyse_query = (code)=>{
-    console.log('analyse_query:',code)
+const entries = ['$_GET','$_POST','$_COOKIE','$_REQUEST','HTTP_GET_VARS','HTTP_POST_VARS','HTTP_COOKIE_VARS','HTTP_REQUEST_VARS']
+
+
+const analyse_query = (sanitize,code)=>{
+	let safe = true
+	for(let i in entries){
+		let index = code.indexOf(entries[i]);
+		if(index!==-1){
+			if(code.substr(index-14,14)!=='_escape_string'){
+				if(safe) console.log(">> Program is not safe!")
+				console.log(">> Entry Point is "+entries[i])
+				safe = false
+			}
+		}
+	}
+	if(safe) console.log('Program is safe!\nEntry point is sanitized by '+sanitize)
+	else console.log('>> To sanitize entry point use: '+sanitize)
 }
 
 
@@ -30,7 +45,13 @@ module.exports = (code)=>{
             let index = query.lastIndexOf(open)
             query = query.substr(0,index+1)
         }
+		let sanitize = 'mysql_real_escape_string'
+		if(code.indexOf('pg_query')!==-1 || code.indexOf('pg_send_query')!==-1)
+			sanitize = 'pg_escape_string or pg_escape_bytea'
+		if(code.indexOf('db2_exec')!==-1)
+			sanitize = 'db2_escape_string'
+
         query = get_var_content(code.split('query(')[0],query)
-        analyse_query(query)
+        analyse_query(sanitize,query)
     }
 }

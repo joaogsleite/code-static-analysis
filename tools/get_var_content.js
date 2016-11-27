@@ -5,6 +5,8 @@ get_var_content = (code,variable)=>{
 
 	if(variable.indexOf('$_')!==-1) return variable
 
+
+
 	var content = variable
 
 	if(content[0]=='$'){
@@ -40,7 +42,8 @@ get_var_content = (code,variable)=>{
 		new_content += get_var_content(code,find)
 		i--
 	}
-
+	if(new_content.indexOf('_escape_string(')!==-1)
+		return new_content.split('_escape_string')[0]+'_escape_string'
 	return new_content
 }
 
