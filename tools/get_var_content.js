@@ -3,55 +3,45 @@ letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'
 
 get_var_content = (code,variable)=>{
 
-	console.log("INPUT",variable)
+	if(variable.indexOf('$_')!==-1) return variable
 
-    let content = variable
+	var content = variable
 
-    if(variable[0]==='$'){
-        if(variable[1]==='_')
-            return variable
+	if(content[0]=='$'){
 
-        var parts = code.split(variable)
-        code = parts[0]
-        parts.shift()
-        content = parts.join(variable)
-        parts = content.split('=')
-        parts.shift()
-        content = parts.join('=')
+		for(i=0; i<variable.length-2; i++)
+			if(variable[i]==='$' && variable[i+1]==='_')
+				return variable
 
-        while(content[0]===' ' || content[0]==='\t' || content[0]==='\n')
-            content = content.substr(1)
+	    var instrutions = code.split(';');
+		var instrution = ""
 
-        let open = content[0]
-        if(open!='"' && open!="'")
-            open=''
-        content = content.split(open+';')[0]+open
-    }
+		for(var i=0; i<instrutions.length; i++)
+			if(instrutions[i].indexOf(variable)!==-1)
+				instrution = instrutions[i]
 
-    parts = content.split('$')
-    content = parts[0]
-    parts.shift()
+		var inst = instrution.split('=');
+		inst.shift()
+		content = inst.join('=')
 
+		code = code.split(instrution)[0]
+	}
+	var new_content = ""
+	for(var i=0; i<content.length; i++){
+		if(content[i]!='$'){
+			new_content += content[i]
+			continue
+		}
 
-    for(i in parts){
-        let k=0
-        let word = parts[i]
-		if(!word) continue
-        while(letters.indexOf(word[k])!==-1){
-            k++;
-        }
-        let end = word.substr(k)
-        word = '$'+word.substr(0,k)
+		i++, find = "$"
+		while(letters.indexOf(content[i])!==-1)
+			find += content[i] , i++
 
+		new_content += get_var_content(code,find)
+		i--
+	}
 
-        word = get_var_content(code,word)
-        content = content + ' ' + word + ' ' + end
-
-    }
-    if(content==='')
-        content = variable
-
-    return content
+	return new_content
 }
 
 module.exports = get_var_content
