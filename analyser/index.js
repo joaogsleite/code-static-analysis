@@ -5,12 +5,12 @@ const php = ['eval']
 
 module.exports = (code)=>{
     if (code.contains(sql)){
-        console.log('Checking SQL Injection')
+		console.log('SQL Injection')
         require('./sql_analyser')(code)
     }
 
     if (code.contains(xss)){
-        console.log('Checking Cross Site Scripting Injection')
+		console.log('Cross Site Scripting')
         require('./xss_analyser')(code)
     }
 

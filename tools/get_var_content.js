@@ -4,9 +4,6 @@ letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'
 get_var_content = (code,variable)=>{
 
 	if(variable.indexOf('$_')!==-1) return variable
-
-
-
 	var content = variable
 
 	if(content[0]=='$'){
