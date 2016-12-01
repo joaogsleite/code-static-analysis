@@ -2,10 +2,10 @@
 
 ### RUN
 ```
-node main.js <file.php>
+node index.js <file.php>
 ```
 
 ### Example
 ```
-node main.js slices/sqli_01.php
+node index.js slices/sqli_01.php
 ```
