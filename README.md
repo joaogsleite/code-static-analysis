@@ -1,4 +1,4 @@
-#SS Project
+# PHP Code Static Analysis
 
 ### RUN
 ```
